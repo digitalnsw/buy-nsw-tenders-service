@@ -5,7 +5,7 @@ gemspec
 group :test do
   gem 'dotenv-rails'
   gem 'pg'
-  gem 'shared_libraries', path: '../shared_libraries'
+  gem 'shared_libraries', git: 'https://github.com/digitalnsw/buy-nsw-shared-libraries', tag: 'v3'
 
   gem 'paranoia', '~> 2.2'
   gem 'pretender'
