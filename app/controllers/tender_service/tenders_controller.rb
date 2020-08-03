@@ -11,7 +11,7 @@ module TenderService
 
     def index
       services = []
-      if session_user.seller_id.present?
+      if session_user&.seller_id.present?
         services = SharedResources::RemoteSeller.level_2_services(session_user.seller_id).to_a
       end
       services = TenderService::Tender.ict_categories.keys if services.blank?
