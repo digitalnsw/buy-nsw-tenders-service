@@ -148,7 +148,7 @@ module TenderService
     end
 
     def self.import doc
-      doc.css("resultset row").each do |row|
+      doc.css("row").each do |row|
         fields = row.css("field").map do |field|
           [field['name'], field.inner_text]
         end.compact.to_h
