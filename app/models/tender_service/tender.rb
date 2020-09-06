@@ -25,7 +25,7 @@ module TenderService
 
     def self.ict_categories
       {
-        "cloud-services" => [
+        "cloud-products-and-services" => [
           # "81112106",
           # "8312XXXX",
 
@@ -35,19 +35,19 @@ module TenderService
           "8110XXXX",
           "8116XXXX",
         ],
-        "software-development" => [
+        "software-design-and-development" => [
           # "432324XX",
           # "81111503",
 
           "8110XXXX",
         ],
-        "software-licensing" => [
+        "software-licensing-and-maintenance" => [
           # "4323XXXX",
           # "8116XXXX",
 
           "4323XXXX",
         ],
-        "end-user-computing" => [
+        "end-user-computing-and-peripherals" => [
           # "43211507",
           # "43211506",
           # "43211503",
@@ -64,7 +64,7 @@ module TenderService
           "8016XXXX",
           "8110XXXX",
         ],
-        "infrastructure" => [
+        "infrastructure-and-network" => [
           # "43222628",
           # "432226XX",
           # "43223308",
@@ -96,7 +96,7 @@ module TenderService
           "8311XXXX",
           "8312XXXX",
         ],
-        "managed-services" => [
+        "managed-and-outsourced-services" => [
           # "81112003",
           # "8010XXXX",
           # "8012XXXX",
@@ -110,7 +110,7 @@ module TenderService
           "8110XXXX",
           "8116XXXX",
         ],
-        "advisory-consulting" => [
+        "advisory-and-consulting" => [
           # "80101505",
           # "80101507",
 
@@ -122,7 +122,7 @@ module TenderService
 
 
     def score services
-      services.map{|s|self.class.ict_categories[s] || []}.flatten.map{|code|
+      services.map{|s|self.class.ict_categories[s] || []}.flatten.uniq.map{|code|
         (1..3).map{|i| code[0..i*2+1] == fields["UNSPSCCode"][0..i*2+1] ? i : 0}.max
       }.max.to_i * 100 + rand(100)
     end
