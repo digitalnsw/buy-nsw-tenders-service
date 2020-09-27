@@ -23,108 +23,147 @@ module TenderService
       }
     end
 
-    def self.ict_categories
+    def self.categories
       {
-        "cloud-products-and-services" => [
-          # "81112106",
-          # "8312XXXX",
-
-          "4321XXXX",
-          "4322XXXX",
-          "4323XXXX",
-          "8110XXXX",
-          "8116XXXX",
+        "community-and-social-services" => [
+          '9314',
         ],
-        "software-design-and-development" => [
-          # "432324XX",
-          # "81111503",
-
-          "8110XXXX",
+        "construction" => [
+          '14111610',
+          '22',
+          '22101716',
+          '30',
+          '3019',
+          '30191616',
+          '30191617',
+          '301917',
+          '30191701',
+          '30191702',
+          '30111902',
+          '60106102',
+          '60141302',
+          '72151201',
+          '721417',
+          '72141701',
+          '72141702',
+          '72153505',
+          '72153507',
+          '73161505',
         ],
-        "software-licensing-and-maintenance" => [
-          # "4323XXXX",
-          # "8116XXXX",
-
-          "4323XXXX",
+        "educational-supplies" => [
+          '60',
+          '432325',
+          '55101509',
+          '55111515',
+          '601012',
+          '601013',
+          '601016',
+          '60141101',
+          '81112216',
+          '861118',
+          '86111801',
+          '86111802',
+          '8612',
+          '8614',
+          '861415',
+          '86141501',
+          '861417',
+          '94100607',
+          '94111903',
+          '951219',
         ],
-        "end-user-computing-and-peripherals" => [
-          # "43211507",
-          # "43211506",
-          # "43211503",
-          # "43211509",
-          # "441015XX",
-          # "432119XX",
-          # "432116XX",
-          # "81112307",
-          # "8111XXXX",
-
-          "4319XXXX",
-          "4320XXXX",
-          "4321XXXX",
-          "8016XXXX",
-          "8110XXXX",
+        "engineering-research-and-technology-services" => [
+          '81',
         ],
-        "infrastructure-and-network" => [
-          # "43222628",
-          # "432226XX",
-          # "43223308",
-          # "39121011",
-          # "43222609",
-          # "2610XXXX",
-          # "43222642",
-          # "3213XXXX",
-          # "3215XXXX",
-
-          "4321XXXX",
-          "4322XXXX",
-          "8116XXXX",
-          "8311XXXX",
-          "8312XXXX",
+        "fleet-management" => [
+          '80161505',
         ],
-        "telecommunications" => [
-          # "431915XX",
-          # "43191501",
-          # "43191504",
-          # "4320XXXX",
-          # "4321XXXX",
-          # "4322XXXX",
-          # "4323XXXX",
-
-          "4319XXXX",
-          "4322XXXX",
-          "8116XXXX",
-          "8311XXXX",
-          "8312XXXX",
+        "food" => [
+          '50',
+          '90',
+          '111417',
+          '11141701',
+          '121645',
+          '12171504',
+          '231815',
+          '23181518',
+          '231816',
+          '231817',
+          '23181705',
+          '23201204',
+          '24121804',
+          '40142012',
+          '41116118',
+          '41116119',
+          '42211910',
+          '42211911',
+          '47131833',
         ],
-        "managed-and-outsourced-services" => [
-          # "81112003",
-          # "8010XXXX",
-          # "8012XXXX",
-          # "8013XXXX",
-          # "8014XXXX",
-          # "8015XXXX",
-          # "8016XXXX",
-          # "8017XXXX",
-
-          "4322XXXX",
-          "8110XXXX",
-          "8116XXXX",
+        "healthcare-services" => [
+          '85',
         ],
-        "advisory-and-consulting" => [
-          # "80101505",
-          # "80101507",
-
-          "8010XXXX",
-          "8016XXXX",
+        "recruitment-and-human-resources" => [
+          '43231505',
+          '8011',
+          '80111505',
+          '80111620',
+        ],
+        "information-communications-technology" => [
+          '4300',
+          '80101507',
+          '8116',
+          '4320',
+          '80111608',
+          '80111609',
+          '80111610',
+          '80111711',
+          '80111610',
+          '80111711',
+          '80111712',
+          '80111713',
+          '80111716',
+          '4321',
+          '4322',
+          '4323',
+        ],
+        "marketing-and-advertising" => [
+          '8014',
+          '80141501',
+          '80141505',
+          '60155409',
+          '80171915',
+          '8210',
+          '55121901',
+          '60105409',
+        ],
+        "office-supplies-and-services" => [
+          '4412',
+        ],
+        "professional-services" => [
+          '80',
+          '80101706',
+          '8110',
+          '8215',
+        ],
+        "property-management-and-maintenance" => [
+          '80131801',
+          '80161601',
+          '7200',
+          '8310',
+        ],
+        "travel" => [
+          '9012',
+          '2511',
+          '7810',
         ],
       }
     end
 
 
     def score services
-      services.map{|s|self.class.ict_categories[s] || []}.flatten.uniq.map{|code|
-        (1..3).map{|i| code[0..i*2+1] == fields["UNSPSCCode"][0..i*2+1] ? i : 0}.max
-      }.max.to_i * 100 + rand(100)
+      services.map{|s|self.class.categories[s] || []}.flatten.uniq.map{|code|
+        fields['UNSPSCCode'].starts_with?(code) ? code.length : 0
+      }.sum.to_i
     end
 
     def current?
