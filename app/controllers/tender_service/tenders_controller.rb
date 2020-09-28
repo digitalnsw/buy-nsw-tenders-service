@@ -14,7 +14,7 @@ module TenderService
       if session_user&.seller_id.present?
         services = SharedResources::RemoteSeller.all_services(session_user.seller_id).to_a
       end
-      services = TenderService::Tender.ict_categories.keys if services.blank?
+      services = TenderService::Tender.categories.keys if services.blank?
       tenders = TenderService::Tender.where('late_closed_at > now()').
         order(late_closed_at: :desc).to_a.select(&:current?).
         sort_by{|t| - t.score(services)}[0..2]
