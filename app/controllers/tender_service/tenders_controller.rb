@@ -17,7 +17,7 @@ module TenderService
       services = TenderService::Tender.categories.keys if services.blank?
       tenders = TenderService::Tender.where('late_closed_at > now()').
         order(late_closed_at: :desc).to_a.select(&:current?).
-        sort_by{|t| - t.score(services)}[0..2]
+        sort_by{|t| - t.score(services)}[0..2].select{|t|t.score.positive?}
       render json: { tenders: escape_recursive(tenders.map(&:serialize)) }
     end
   end

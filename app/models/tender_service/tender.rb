@@ -159,11 +159,12 @@ module TenderService
       }
     end
 
+    attr_reader :score
 
     def score services
-      services.map{|s|self.class.categories[s] || []}.flatten.uniq.map{|code|
+      @score = services.map{|s|self.class.categories[s] || []}.flatten.uniq.map{|code|
         fields['UNSPSCCode'].starts_with?(code) ? code.length : 0
-      }.sum.to_i
+      }.sum
     end
 
     def current?
