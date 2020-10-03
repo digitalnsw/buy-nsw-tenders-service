@@ -161,7 +161,7 @@ module TenderService
 
     attr_reader :score
 
-    def score calc_services
+    def calc_score services
       @score ||= services.map{|s|self.class.categories[s] || []}.flatten.map{|code|
         fields['UNSPSCCode'].starts_with?(code) ? (code.length ** 2) : 0
       }.sum
