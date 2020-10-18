@@ -3,6 +3,8 @@ module TenderService
     self.table_name = 'tenders'
     acts_as_paranoid column: :discarded_at
 
+    include SharedModules::Serializer
+
     def self.valid_fields
       {
         'TenderUUID' => :tender_uuid,
@@ -182,8 +184,8 @@ module TenderService
       }.to_h
       hash[:id] = id
       hash[:category] = TenderService::UnspscCode.where(code: fields['UNSPSCCode']).first&.description || fields['UNSPSCCode']
-      hash[:short_description] = ActionView::Base.full_sanitizer.sanitize(hash[:short_description], tags: []) rescue nil
-      hash[:long_description] = ActionView::Base.full_sanitizer.sanitize(hash[:long_description], tags: []) rescue nil
+      hash[:short_description] = full_sanitize(hash[:short_description]) rescue nil
+      hash[:long_description] = full_sanitize(hash[:long_description]) rescue nil
       hash
     end
 
