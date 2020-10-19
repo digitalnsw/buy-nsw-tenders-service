@@ -191,13 +191,20 @@ module TenderService
 
     def self.import doc
       doc.css("row").each do |row|
-        fields = row.css("field").map do |field|
-          [field['name'], field.inner_text]
-        end.compact.to_h
-        tender = TenderService::Tender.find_or_initialize_by(uuid: fields['TenderUUID'])
-        tender.fields = fields
-        tender.set_close_time
-        tender.save!
+        begin
+          fields = row.css("field").map do |field|
+            [field['name'], field.inner_text]
+          end.compact.to_h
+          tender = TenderService::Tender.find_or_initialize_by(uuid: fields['TenderUUID'])
+          tender.fields = fields
+          tender.set_close_time
+          tender.save!
+        rescue => e
+          Airbrake.notify_sync(e.message, {
+            uuid: fields['TenderUUID'],
+            trace: e.backtrace.select{|l|l.match?(/buy-nsw/)},
+          })
+        end
       end
     end
   end
