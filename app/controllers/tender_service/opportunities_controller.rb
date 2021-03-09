@@ -54,9 +54,9 @@ module TenderService
 
       # perform a cloudsearch search
       client = Aws::CloudSearchDomain::Client.new(
-        credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']), 
+        credentials: Aws::Credentials.new(ENV['CLOUDSEARCH_AWS_ACCESS_KEY_ID'], ENV['CLOUDSEARCH_AWS_SECRET_ACCESS_KEY']), 
         region: 'ap-southeast-2', 
-        endpoint: 'https://search-testing-poc-v6mk7gfoelb5c7svmhdcusxgmm.ap-southeast-2.cloudsearch.amazonaws.com'
+        endpoint: ENV['CLOUDSEARCH_DOMAIN_OPPS_SEARCH']
       )
 
       params[:term] = (params[:term] || '')
@@ -132,9 +132,9 @@ module TenderService
     def uploadtenders
 
       client = Aws::CloudSearchDomain::Client.new(
-        credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']), 
+        credentials: Aws::Credentials.new(ENV['CLOUDSEARCH_AWS_ACCESS_KEY_ID'], ENV['CLOUDSEARCH_AWS_SECRET_ACCESS_KEY']), 
         region: 'ap-southeast-2', 
-        endpoint: 'https://doc-testing-poc-v6mk7gfoelb5c7svmhdcusxgmm.ap-southeast-2.cloudsearch.amazonaws.com'
+        endpoint: ENV['CLOUDSEARCH_DOMAIN_OPPS_DOCUMENT']
       )
 
       tenders = TenderService::Tender.where('late_closed_at > now()')
@@ -198,9 +198,9 @@ module TenderService
     def deletetenders
 
       client = Aws::CloudSearchDomain::Client.new(
-        credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']), 
+        credentials: Aws::Credentials.new(ENV['CLOUDSEARCH_AWS_ACCESS_KEY_ID'], ENV['CLOUDSEARCH_AWS_SECRET_ACCESS_KEY']), 
         region: 'ap-southeast-2', 
-        endpoint: 'https://search-testing-poc-v6mk7gfoelb5c7svmhdcusxgmm.ap-southeast-2.cloudsearch.amazonaws.com'
+        endpoint: ENV['CLOUDSEARCH_DOMAIN_OPPS_SEARCH']
       )
 
       resp = client.search(
@@ -212,9 +212,9 @@ module TenderService
       puts resp.to_a
 
       client = Aws::CloudSearchDomain::Client.new(
-        credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']), 
+        credentials: Aws::Credentials.new(ENV['CLOUDSEARCH_AWS_ACCESS_KEY_ID'], ENV['CLOUDSEARCH_AWS_SECRET_ACCESS_KEY']), 
         region: 'ap-southeast-2', 
-        endpoint: 'https://doc-testing-poc-v6mk7gfoelb5c7svmhdcusxgmm.ap-southeast-2.cloudsearch.amazonaws.com'
+        endpoint: ENV['CLOUDSEARCH_DOMAIN_OPPS_DOCUMENT']
       )
 
       docs = []
@@ -236,9 +236,9 @@ module TenderService
 
     def count 
       client = Aws::CloudSearchDomain::Client.new(
-        credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']), 
+        credentials: Aws::Credentials.new(ENV['CLOUDSEARCH_AWS_ACCESS_KEY_ID'], ENV['CLOUDSEARCH_AWS_SECRET_ACCESS_KEY']), 
         region: 'ap-southeast-2', 
-        endpoint: 'https://search-testing-poc-v6mk7gfoelb5c7svmhdcusxgmm.ap-southeast-2.cloudsearch.amazonaws.com'
+        endpoint: ENV['CLOUDSEARCH_DOMAIN_OPPS_SEARCH']
       )
 
       filterDateRange = "(range field=late_close_date [\'#{DateTime.now.strftime('%Y-%m-%dT%H:%M:%SZ')}\',})"
