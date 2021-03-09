@@ -14,6 +14,7 @@ module TenderService
         'UNSPSCCode' => :unspsc_code,
         'UNSPSCCodeAdditional' => :unspsc_code_additional,
         'Title' => :title,
+        'Number' => :number,
         'LateCloseDateTime' => :late_close_date,
         'CloseDateTime' => :close_date,
         'PublishDate' => :publish_date,
