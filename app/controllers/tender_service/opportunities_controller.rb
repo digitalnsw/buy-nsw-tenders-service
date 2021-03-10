@@ -48,6 +48,13 @@ module TenderService
       end
 
       filterDateRange = "(range field=late_close_date [\'#{DateTime.now().strftime('%Y-%m-%dT%H:%M:%SZ')}\',})"
+      params[:close_date] = (params[:close_date] || '')
+      if params[:close_date].length > 0
+        closeDate = DateTime.parse params[:close_date] rescue nil
+        if !closeDate.nil? && closeDate > DateTime.now()
+          filterDateRange = "(range field=late_close_date [\'#{DateTime.now().strftime('%Y-%m-%dT%H:%M:%SZ')}\',\'#{closeDate.strftime('%Y-%m-%dT23:59:59Z')}\'])"
+        end
+      end
 
       params[:services] = (params[:services] || [])
       serviceCategory = ''
@@ -66,7 +73,6 @@ module TenderService
         end
         filterOppType = "(or #{filterOppType})"
       end
-
 
       resp = client.search(
         query: "(or #{queryTerms})", 
