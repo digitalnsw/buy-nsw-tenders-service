@@ -9,6 +9,10 @@ module TenderService
 
     # before_action :authenticate_user, only: [:index]
 
+    def index
+      search
+    end
+
     def search 
 
       page = (params[:page] || 1).to_i
