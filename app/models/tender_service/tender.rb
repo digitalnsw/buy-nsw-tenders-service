@@ -104,12 +104,6 @@ module TenderService
         "healthcare-services" => [
           '85',
         ],
-        "recruitment-and-human-resources" => [
-          '43231505',
-          '8011',
-          '80111505',
-          '80111620',
-        ],
         "information-communications-technology" => [
           '4300',
           '80101507',
@@ -152,6 +146,12 @@ module TenderService
           '80161601',
           '7200',
           '8310',
+        ],
+        "recruitment-and-human-resources" => [
+          '43231505',
+          '8011',
+          '80111505',
+          '80111620',
         ],
         "travel" => [
           '9012',
